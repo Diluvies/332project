@@ -126,5 +126,157 @@ Planning 단계에서는 생성형 AI의 도움을 받아 프로그램 디자인
 
 #
 
+---
+
+## Week2
+
+### Brainstorming Idea
+
+프로젝트 소개 ppt의 내용을 바탕으로 프로그램의 전체적인 구조에 대한 아이디어를 간단하게 정리하고 작성할 클래스 및 함수에 대한 skeleton code를 작성하였다.
+
+**1. System Architecture**
+
+1. Master Node
+
+master가 수행하는 작업들은 다음과 같다.
+- Track and communicate with workers
+- Distribute sorting tasks
+- Collect results and determine ordering
+- Determine the final ordering of data blocks
+
+```Scala
+class Master(numWorkers: Int) {
+  val workers = new Array[String](numWorkers) // stores IPs of workers
+
+  // Start master node
+  def startMaster(): Unit = {
+    // implement network code here to handle worker connections
+  }
+
+  // Distribute sorting tasks to workers
+  def distributeTasks(): Unit = {
+    // logic to distribute input blocks
+  }
+
+  // Collect results and determine ordering
+  def collectResults(): Unit = {
+    // logic to gather sorted blocks and determine final ordering
+  }
+
+  // Other master methods...
+}
+```
+###
+2. Worker Nodes
+
+worker가 수행하는 작업들은 다음과 같다.
+- Receive tasks from the master
+- Sort local data blocks
+- Shuffle sorted datat to appropriate workers
+- Merge sorted blocks
+
+```Scala
+class Worker(masterAddress: String, inputDirs: List[String], outputDir: String) {
+  // Start worker node
+  def startWorker(): Unit = {
+    // implement network code to connect to master
+  }
+
+  // Perform sorting on received input blocks
+  def sortInputBlocks(): Unit = {
+    inputDirs.foreach { dir =>
+      // Read and sort input blocks
+    }
+  }
+
+  // Send sorted blocks back to master
+  def sendSortedBlocks(): Unit = {
+    // implement sending logic
+  }
+
+  // Other worker methods...
+}
+```
+###
+3. Communication
+
+master와 worker 간의 통신을 수행하는 client-server application이 필요하며, 편리한 구현 및 성능을 위해 교수님께서 추천하시는 gRPC with Protobuf를 사용할 계획이다.
+이에 대한 사전지식이 없어 사용 방법 등을 숙지 중이며, 다음의 스켈레톤 코드는 ChatGPT를 통해 작성하였다.
+
+```Proto
+syntax = "proto3";
+
+service SortService {
+  rpc DistributeTasks (TaskRequest) returns (TaskResponse);
+  rpc CollectResults (ResultRequest) returns (ResultResponse);
+}
+
+message TaskRequest {
+  string workerId = 1;
+  string inputBlock = 2;
+}
+
+message TaskResponse {
+  string status = 1;
+}
+
+message ResultRequest {
+  string workerId = 1;
+  string sortedBlock = 2;
+}
+
+message ResultResponse {
+  string status = 1;
+}
+```
+
+참고 사이트:  
+https://scalapb.github.io/docs/getting-started/
+https://scalapb.github.io/docs/grpc/
+###
+4. Sorting and Parallel Processing
+
+Sorting 작업은 multiple thread로 parallel하게 수행한다.
+
+```Scala
+object Sorter {
+  def parallelSort(inputBlocks: List[Array[Byte]]): List[Array[Byte]] = {
+    inputBlocks.par.map(block => sortBlock(block)).toList
+  }
+
+  def sortBlock(block: Array[Byte]): Array[Byte] = {
+    // Sorting logic
+  }
+}
+```
+
+###
+5. 데이터 불러오기
+
+프로그램이 다루는 데이터는 저장되어있는 대용량의 key-value pair이며 이를 ASCII/binary format에 무관하게 
+불러오고 다룰 수 있어야 한다. 주어진 파일 경로에서 데이터를 읽어오는 역할의 함수를 다음과 같이 구상한다.
+
+```Scala
+def readRecords(filePath: String): List[Array[Byte]] = {
+  val file = new File(filePath)
+  val in = new BufferedInputStream(new FileInputStream(file))
+  val buffer = new Array[Byte](32 * 1024 * 1024) // 32MB buffer
+
+  // 읽은 데이터를 buffer에 저장
+  Stream.continually(in.read(buffer)).takeWhile(_ != -1).map { bytesRead =>
+    buffer.slice(0, bytesRead) // 읽은 만큼의 데이터를 슬라이스해서 저장
+  }.toList
+}
+```
+
+#
+
+>#### Next week goal:
+> cluster 사용법 숙지, master/worker 테스트 및 network library 학습  
+> gRPC 숙지, 프로젝트 전체의 구조 및 상호작용을 시각화하는 block diagram 등 구성
+> - 김균서: 개인 PC에서 환경 구성 후 소규모 dataset 기반 단일 sorting 작업 수행, cluster 작업 테스트
+> - 정용준: System Architecture 수정 및 구체화, visualization
+
+#
 
 
