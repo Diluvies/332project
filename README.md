@@ -231,7 +231,7 @@ message ResultResponse {
 ```
 
 참고 사이트:  
-https://scalapb.github.io/docs/getting-started/
+https://scalapb.github.io/docs/getting-started/  
 https://scalapb.github.io/docs/grpc/
 ###
 4. Sorting and Parallel Processing
@@ -279,4 +279,49 @@ def readRecords(filePath: String): List[Array[Byte]] = {
 
 #
 
+---
 
+## Week3
+
+이번 주차는 본래 작성할 클래스, 모듈 간 소통 경로, 블록 다이어그램 등을 모두 구상하며 프로젝트 설계 단계를 거의 마무리하고 상황에 따라 구현
+단계로 넘어갈 것을 계획하였으나, 팀 멤버 양측이 모두 일정이 생겨 미팅 및 진전을 이루지 못하였다. 따라서 교내 가상 머신 서버 접속을 위한 IP 신청,
+방화벽 접근 신청 등 개별적으로 진행 가능한 활동이나, scala 및 gRPC 문법 공부 등 개인적으로 부족한 구현 능력을 향상시키는 것을 위주로 진행하였다.
+
+이외에는 ChatGPT를 사용하여 구현해야 할 간단한 목표나 master/worker 구조를 리마인드해보았다.
+- Sampling:  
+마스터는 각 워커로부터 샘플 데이터를 수집하여 전체 데이터의 분포를 분석합니다.  
+이를 위해 각 워커에서 일정 비율로 데이터를 샘플링합니다.
+
+- Sort/Partition:  
+각 워커는 자신의 데이터 파티션을 정렬합니다.  
+정렬 후, 각 워커는 정렬된 데이터의 키를 기준으로 분할합니다.
+- Shuffle:  
+마스터는 각 워커에게 정렬된 데이터를 기반으로 데이터를 다른 워커로 전송하도록 지시합니다.  
+데이터를 송신할 워커와 수신할 워커의 매핑을 관리합니다.
+- Merge:  
+각 워커는 수신한 데이터를 병합하고 최종 정렬된 결과를 생성합니다.  
+결과를 지정된 출력 디렉토리에 저장합니다.
+
+```plaintext
++-------------------+                          +--------------------+
+|   Master Node     |                          |   Worker Node      |
++-------------------+                          +--------------------+
+| - Start Server    |<---gRPC Communication----| - Start Server     |
+| - Receive Data    |                          | - Read Data        |
+| - Sampling        |                          | - Sample Data      |
+| - Send Partitions |------------------------->| - Sort Data        |
+| - Shuffle         |<---Results from Workers--| - Send Data        |
+| - Merge Results   |                          | - Merge Results    |
+| - Write Output    |                          | - Clean Temp Files |
++-------------------+                          +--------------------+
+```
+
+#
+
+>#### Next week goal:
+> Week2의 목표 그대로  
+> 프로젝트 설계 완성하고 파트 분배. 여러 Worker들에 대한 Master의 concurrent handling에 대해 고민.
+> - 김균서: Sampling, Sort/Partition 단계에 대한 구체적인 디자인 작성
+> - 정용준: Shuffle, Merge 단계에 대한 구체적인 디자인 작성
+
+#
