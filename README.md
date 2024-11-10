@@ -325,3 +325,35 @@ def readRecords(filePath: String): List[Array[Byte]] = {
 > - 정용준: Shuffle, Merge 단계에 대한 구체적인 디자인 작성
 
 #
+
+---
+
+## Week4
+
+Cluster center 접근 신청을 완료하고 ssh를 통한 master/worker 기계로의 접속이 가능하도록 개인 환경을 구성해 접속을 테스트해 보았다.
+Scala 프로그래밍은 IntelliJ IDEA Community Edition을 사용하고 있었으나 ssh 연결 기능은 유료로 제공하고 있어 MobaXterm을 이용해 수행하였다.
+전반적으로 ssh 원격 연결, 그리고 클러스터 서버를 통한 원격 제어 및 프로그래밍에 대한 개념이 없어 이러한 부분에서 다소 시행착오를 겪었다.
+아래 그림과 같이 Master 기계에 접속 및 팀에게 할당받은 11개의 worker 기계에 전부 한 번씩 접속해보며 앞으로 다루어야 할 가상 머신 서버의 상황을 확인하였다.
+
+<img src="./img/master_connect.png" width="464" height="342">
+
+####
+
+<img src="./img/worker1_connect.png" width="400" height="202">
+
+이후 gensort 파일을 설치하고 이를 사용해 샘플 데이터를 생성해보며 사용법을 숙지하였다. 현재 binary data로 생성 시 내용이 깨져서 출력되는 현상이 있어
+이를 해결해야 한다.
+
+<img src="./img/gensort_test.png" width="563" height="354">
+
+
+#
+
+>#### Next week goal:
+> 프로그램의 흐름을 보여주는 다이어그램 작성...  
+> 현재 master/worker 역할에 대한 아이디어를 개별적으로 적어만 두고 체계화하지 못한 상태  
+> 다이어그램 형식은 수업 ppt "scala.08"의 18번째 슬라이드 참조
+> - 김균서: 가상머신 접속 관련 문제 해결, master-worker 상호작용과 전체 흐름에 대해 고민
+> - 정용준: master-worker 상호작용과 전체 흐름에 대해 고민
+
+
