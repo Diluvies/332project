@@ -356,4 +356,11 @@ Scala 프로그래밍은 IntelliJ IDEA Community Edition을 사용하고 있었�
 > - 김균서: 가상머신 접속 관련 문제 해결, master-worker 상호작용과 전체 흐름에 대해 고민
 > - 정용준: master-worker 상호작용과 전체 흐름에 대해 고민
 
+#
+
+---
+
+## Week5
+
+Master와 Worker의 각 역할과 전체 흐름을 전체적으로 정리하였다.
 
