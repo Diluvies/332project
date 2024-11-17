@@ -365,3 +365,11 @@ Scala 프로그래밍은 IntelliJ IDEA Community Edition을 사용하고 있었�
 Master와 Worker의 각 역할과 전체 흐름을 전체적으로 정리하였다.
 [Master-Worker.pdf](https://github.com/user-attachments/files/17789295/Master-Worker.pdf)
 
+
+#
+
+>#### Next week goal:
+> 전반적인 프로그램의 흐름을 정리했고, Worker와 Master의 코드 구현을 마쳐야 함.
+> 목표는 Master-worker 통신까지 구현하는 것.
+> 김균서 : Master 코드 작성, Master-worker간 통신 코드 작성 
+> 정용준 : Worker 코드 작성, Master-worker간 통신 코드 작성
