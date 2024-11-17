@@ -365,6 +365,7 @@ Scala 프로그래밍은 IntelliJ IDEA Community Edition을 사용하고 있었�
 Master와 Worker의 각 역할과 전체 흐름을 전체적으로 정리하였다.
 [Master-Worker.pdf](https://github.com/user-attachments/files/17789295/Master-Worker.pdf)
 
+![diagram1](https://github.com/user-attachments/assets/0afbeba1-5282-4475-bf82-dde5780f85a6)
 
 #
 
