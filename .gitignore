@@ -1,0 +1,26 @@
+# User configuration and environment files
+.Xauthority
+.bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.viminfo
+
+.config/
+.g8/
+.ivy2/
+
+# IDE and editor-specific files
+.bsp/
+.cache/
+.sbt/
+.ssh/
+.vscode-server/
+
+# Build artifacts
+target/
+project/
+
+# Temporary directories or files
+gensort-1.5/
+gensortTest/
