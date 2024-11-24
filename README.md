@@ -377,3 +377,59 @@ Master와 Worker들간의 역할을 timeline과 diagram으로 정리해봤고(wo
 > 목표는 Master-worker 통신까지 구현하는 것.
 > - 김균서 : Master 코드 작성, Master-worker간 통신 구현
 > - 정용준 : Worker 코드 작성, Master-worker간 통신 구현
+
+---
+
+## Week6
+
+작성한 Weekly progress를 정리하고, 간단히 세워두었던 milestone들을 재정비하며 Progress presentation을 준비하였다.  
+[Progress Presentation.pdf](https://github.com/Diluvies/332project/blob/main/Progress.pdf)
+
+- Milestone #1
+    - Project Goal
+        - 전반적인 계획 설정
+        - 스케줄 관리
+
+- Milestone #2
+    - Test cluster
+        - master, worker 실행 & 연결
+        - master-worker 통신에 사용할 network library 선정
+        - gensort sample data 생성
+
+- Milestone #3
+  - Architecture & Design
+    - 프로그램 전체적인 구조 설정
+    - master-worker 간의 역할과 기능 공부
+    - 구현할 함수 설정
+    - skeleton code 작성
+
+- Milestone #4
+  - Code-Worker
+    - local sorting / sample data / partitioning / shuffle / disk-based merge function 구현
+    - master-worker network 코드: sendToMaster, reportLoadCompletionToMaster, SampleAndSendData function 구현
+    - worker-worker network 코드: sendToWorker 구현
+
+- Milestone #5
+  - Code-Master
+    - pivot, sample data sorting, range table function 구현
+    - master-worker network 코드: startServer, masterServer, ...
+
+- Milestone #6
+  - Debuggin & Testing
+    - 결과값 출력 후 기대치 비교
+    - 코드 수정 및 검토
+    - Time complexity 고려하여 코드 재수정
+
+cluster 서버에서 Apache Commons IO 라이브러리를 사용한 local sorting이 동작함을 확인하였고, ScalaPB를 활용하여 master와 worker 간의 
+간단한 연결 상태를 구축, "hello"와 같은 짧은 텍스트 메시지 송수신이 이루어짐을 확인하였다.
+
+로컬 환경에서 각자 네트워크 통신 영역을 제외한 master 머신과 worker 머신의 함수 코드를 구현하였다.
+
+#
+
+>#### Next week goal:
+> 각자 따로 구현한 코드의 병합 및 개별 함수 기능 확인  
+> Master-Worker communication 관련 함수들 구현. 해당 부분은 디버깅 시간을 줄이기 위해 최대한 만나서 구현.  
+> 테스트가 가능한 수준까지 프로그램 완성
+> - 김균서 : Master-worker간 통신 구현
+> - 정용준 : Master-worker간 통신 구현
