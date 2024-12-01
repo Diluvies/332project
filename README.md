@@ -439,16 +439,37 @@ cluster 서버에서 Apache Commons IO 라이브러리를 사용한 local sortin
 
 ## Week7
 
-- Worker와 Master의 코드 작성 및 수행
-- 
+master 머신과 worker 머신의 함수 코드를 병합하여 제대로 기능이 수행되는지 확인하고, 코드를 조금 더 정밀하게 수정하였다.
+
+- Worker와 Master의 코드 수정 및 기능 수행 테스트
+   - Worker의 잔여 용량 및 메모리 상태 응답
+   - data load 및 disk save
+   - sorting
+   - Sample data & sending
+   - Partitioning
+   - Shuffling
+   - Data sending
+   - Merging
+     
   (코드 일부)
   
 ![image](https://github.com/user-attachments/assets/2264756f-740d-464f-b4ee-c0ddc369d4bb)
 
 ![image](https://github.com/user-attachments/assets/e7ba6817-5f2a-4aee-9f30-26ef018a8f56)
+
 각 worker 안에서 core 개수만큼 partition을 나누어 key range 값을 할당하면 다소 복잡할 수가 있어서(효율적이긴 하지만) 구현에만 포커싱.
    - 개별 worker에는 core 개수와 무관하게 하나의 key range만 master로부터 할당받고 수행하도록 수정
 
 - Apache Commons IO Test
   - Gensort로 만들어낸 더미 파일을 Apache Commons IO 라이브러리를 이용하여 sorting 작업을 실행
-  - 이후 valsort를 통해 sorting이 제대로 이뤄졌는지 확인
+  - 이후 valsort를 통해 sorting이 제대로 이뤄졌는지 확인하였다.
+ 
+
+#
+
+>#### Next week goal:
+> 코드 병합 및 최종 테스트
+> 프로그램 완성
+> - 김균서 : Master-worker간 통신 구현, 프로그램 완성 및 테스트
+> - 정용준 : Master-worker간 통신 구현, 프로그램 완성 및 테스트
+  
