@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package distSorting.network
+
+/*
+ * Service Definitions
+ */
+service MasterService {
+  // Registers a worker with the master node.
+  rpc AddWorker (WorkerRegistration) returns (OperationResponse) {}
+
+  // Reports task status and results from worker to master.
+  rpc SubmitTaskResult (TaskResultReport) returns (OperationResponse) {}
+}
+
+service WorkerService {
+  // Requests a task assignment from the master.
+  rpc GetTask (TaskRequest) returns (OperationResponse) {}
+}
+
+service DataShuffleService {
+  // Initiates the data shuffling process.
+  rpc InitiateShuffle (ShuffleInitRequest) returns (OperationResponse) {}
+
+  // Transfers data during the shuffle phase.
+  rpc TransferShuffleData (ShuffleDataTransfer) returns (OperationResponse) {}
+
+  // Finalizes the shuffling process.
+  rpc CompleteShuffle (ShuffleInitRequest) returns (OperationResponse) {}
+}
+
+/*
+ * Message Definitions
+ */
+
+// Message for worker registration.
+message WorkerRegistration {
+  bytes workerDetails = 1; // Serialized worker details.
+}
+
+// Message for task requests or details.
+message TaskRequest {
+  bytes taskDetails = 1; // Serialized task-related information.
+}
+
+// Task result report sent by workers.
+message TaskResultReport {
+  enum ResultStatus {
+    SUCCESSFUL = 0; // Task was completed successfully.
+    UNSUCCESSFUL = 1; // Task encountered a failure.
+  }
+
+  int32 taskIdentifier = 1;                // Unique identifier for the task.
+  ResultStatus resultStatus = 2;           // Status of the task execution.
+  bytes resultDetails = 3;                 // Additional result-related data.
+}
+
+// Generic response message for all RPC calls.
+message OperationResponse {
+  enum ResponseCode {
+    OK = 0;            // Request handled successfully.
+    SERVER_ERROR = 1;  // Error occurred on the server-side.
+    CLIENT_ERROR = 2;  // Error with the client request.
+  }
+
+  ResponseCode code = 1; // Status of the operation.
+}
+
+// Shuffle data transfer message.
+message ShuffleDataTransfer {
+  bytes partitionKey = 1;  // Serialized partition metadata.
+  bytes shuffleContent = 2; // Serialized shuffle data payload.
+}
